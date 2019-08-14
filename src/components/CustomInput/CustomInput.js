@@ -1,8 +1,7 @@
 import React from "react";
-import "./CustomInput.css";
 
 const CustomInput = props => {
-  return <input {...props} className="custom-input" />;
+  return <input {...props} />;
 };
 
 export default CustomInput;

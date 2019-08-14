@@ -25,33 +25,44 @@ class Main extends Component {
 
     return (
       <React.Fragment>
-        <div className="Main-header">Todo Application</div>
-        <form className="Main-form" onSubmit={this.onFormSubmit}>
-          <CustomInput
-            type="text"
-            placeholder="Enter Todo title"
-            value={this.state.title}
-            onChange={e => this.setState({ title: e.target.value })}
-          />
-          <CustomInput
-            type="text"
-            placeholder="Enter Todo description"
-            value={this.state.description}
-            onChange={e => this.setState({ description: e.target.value })}
-          />
-          <CustomInput type="submit" />
-        </form>
+        <h1 className="ui segment header">Todo Application</h1>
+        <div className="ui container">
+          <form className="ui form" onSubmit={this.onFormSubmit}>
+            <div className="field">
+              <CustomInput
+                type="text"
+                placeholder="Enter Todo title"
+                value={this.state.title}
+                onChange={e => this.setState({ title: e.target.value })}
+              />
+            </div>
+            <div className="field">
+              <CustomInput
+                type="text"
+                placeholder="Enter Todo description"
+                value={this.state.description}
+                onChange={e => this.setState({ description: e.target.value })}
+              />
+            </div>
+            <div className="field">
+              <CustomInput type="submit" className="ui button primary" />
+            </div>
+          </form>
+          <hr />
 
-        <ul>
-          {this.state.todos.map((value, index) => (
-            <li key={index} className>
-              <h2>Title</h2>
-              {value.title}
-              <h2>Title</h2>
-              {value.description}
-            </li>
-          ))}
-        </ul>
+          <div className="ui segment">
+            <ul className="ui list bulleted">
+              {this.state.todos.map((value, index) => (
+                <li key={index}>
+                  <label>Title</label>
+                  {value.title}
+                  <label>Description</label>
+                  {value.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
