@@ -1,0 +1,18 @@
+.Main-header {
+  padding: 15px;
+  width: 100%;
+  font-size: 3em;
+  background-color: cornflowerblue;
+  color: whitesmoke;
+}
+
+.Main-form {
+  width: 900px;
+  margin: 20px auto;
+  background-color: cornsilk;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* text-align: center;  */
+}
