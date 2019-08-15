@@ -1,9 +1,6 @@
-.Main-header {
-  padding: 15px;
-  width: 100%;
-  font-size: 3em;
-  background-color: cornflowerblue;
-  color: whitesmoke;
+.header,
+.form {
+  text-align: center;
 }
 
 .Main-form {
@@ -14,5 +11,5 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* text-align: center;  */
+  text-align: center;
 }
