@@ -48,7 +48,7 @@ class Main extends Component {
     console.log(todos);
     todos[idToUpdate].title = title;
     todos[idToUpdate].description = description;
-    this.setState({ todos, title: "", description: "" });
+    this.setState({ todos, title: "", description: "", update: false });
   };
 
   onTodoDelete = index => {
