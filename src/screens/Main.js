@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import "./Main.css";
 import CustomInput from "../components/CustomInput/CustomInput";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
-const MySwal = withReactContent(Swal);
 
 class Main extends Component {
   state = {
     todos: [],
     title: "",
-    description: ""
+    description: "",
+    update: false,
+    idToUpdate: ""
   };
 
   onFormSubmit = e => {
@@ -19,12 +18,12 @@ class Main extends Component {
     const { title, description, todos } = this.state;
 
     if (!title && !description) {
-      MySwal.fire({
+      Swal.fire({
         type: "error",
         title: "Please fill both fields"
       });
     } else if (title.length <= 2 || description <= 2) {
-      MySwal.fire({
+      Swal.fire({
         type: "error",
         title: "Title must consist of more than 2 words"
       });
@@ -33,13 +32,22 @@ class Main extends Component {
       todos.push(todoObj);
       this.setState({ todos, title: "", description: "" });
       Swal.fire({
-        title: "Successfully addedd!",
+        title: "Successfully added!",
         text: "Todo List updated",
         type: "success",
         showConfirmButton: false,
         timer: 1500
       });
     }
+  };
+
+  onFormUpdate = e => {
+    e.preventDefault();
+    const { todos, idToUpdate, title, description } = this.state;
+    console.log(todos);
+    todos[idToUpdate].title = title;
+    todos[idToUpdate].description = description;
+    this.setState({ todos, title: "", description: "" });
   };
 
   onTodoDelete = index => {
@@ -49,11 +57,16 @@ class Main extends Component {
   };
 
   onTodoEdit = (val, i) => {
-    console.log(val);
-    this.setState({ title: val.title, description: val.description });
+    this.setState({
+      title: val.title,
+      description: val.description,
+      update: true,
+      idToUpdate: i
+    });
   };
 
   render() {
+    const { title, description, update } = this.state;
     return (
       <React.Fragment>
         <h1
@@ -63,12 +76,15 @@ class Main extends Component {
           Todo Application
         </h1>
         <div className="ui container">
-          <form className="ui form" onSubmit={this.onFormSubmit}>
+          <form
+            className="ui form"
+            onSubmit={update ? this.onFormUpdate : this.onFormSubmit}
+          >
             <div className="field">
               <CustomInput
                 type="text"
                 placeholder="Enter Todo title"
-                value={this.state.title}
+                value={title}
                 onChange={e => this.setState({ title: e.target.value })}
               />
             </div>
@@ -76,12 +92,16 @@ class Main extends Component {
               <CustomInput
                 type="text"
                 placeholder="Enter Todo description"
-                value={this.state.description}
+                value={description}
                 onChange={e => this.setState({ description: e.target.value })}
               />
             </div>
             <div className="field">
-              <CustomInput type="submit" className="ui button primary" />
+              <input
+                type="submit"
+                className="ui button primary"
+                value={update ? "Update" : "Submit"}
+              />
             </div>
           </form>
 
@@ -116,6 +136,10 @@ class Main extends Component {
                 </div>
               ))}
             </ul>
+          </div>
+          <div className="ui horizontal divider header">
+            <i className="calendar alternate icon" />
+            Todos
           </div>
         </div>
       </React.Fragment>
