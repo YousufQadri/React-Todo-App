@@ -9,7 +9,8 @@ class Main extends Component {
     title: "",
     description: "",
     update: false,
-    idToUpdate: ""
+    idToUpdate: "",
+    isComplete: false
   };
 
   onFormSubmit = e => {
@@ -65,8 +66,13 @@ class Main extends Component {
     });
   };
 
+  onChecked = () => {
+    this.setState({ isComplete: !this.state.isComplete });
+  };
+
   render() {
-    const { title, description, update } = this.state;
+    const { title, description, update, isComplete } = this.state;
+    let taskDone = isComplete ? "line-through" : "";
     return (
       <React.Fragment>
         <h1
@@ -114,10 +120,20 @@ class Main extends Component {
             <ul className="ui relaxed divided list">
               {this.state.todos.map((value, index) => (
                 <div className="item" key={index}>
-                  <i className="large history middle aligned icon" />
                   <div className="content">
-                    <h3 className="">{value.title}</h3>
-                    <div className="description">{value.description}</div>
+                    <div class="ui left floated segment">
+                      <div class="ui fitted checkbox">
+                        <input
+                          type="checkbox"
+                          onChange={() => this.onChecked(index)}
+                        />
+                        <label />
+                      </div>
+                    </div>
+                    <div style={{ textDecoration: `${taskDone}` }}>
+                      <h3 className="">{value.title}</h3>
+                      <div className="description">{value.description}</div>
+                    </div>
                     <span style={{ float: "right" }}>
                       <CustomInput
                         type="button"
@@ -141,6 +157,8 @@ class Main extends Component {
             <i className="calendar alternate icon" />
             Todos
           </div>
+          <span>Completed: </span>
+          <span>Remaining: </span>
         </div>
       </React.Fragment>
     );
