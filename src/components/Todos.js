@@ -15,6 +15,7 @@ class Todos extends Component {
               <TodoItem
                 key={todo.id}
                 todo={todo}
+                changeStatus={this.props.changeStatus}
                 delTodo={this.props.delTodo}
               />
             ))}

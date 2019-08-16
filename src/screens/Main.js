@@ -8,22 +8,18 @@ import TodoForm from "../components/TodoForm";
 
 class Main extends Component {
   state = {
-    todos: [],
-    title: "",
-    description: "",
-    update: false,
-    idToUpdate: ""
+    todos: []
   };
 
   addTodo = (title, description) => {
     const newTodo = {
       id: uuid.v4(),
       title,
-      description
+      description,
+      isComplete: false
     };
     this.setState({
-      todos: [...this.state.todos, newTodo],
-      isComplete: false
+      todos: [...this.state.todos, newTodo]
     });
   };
 
@@ -34,6 +30,17 @@ class Main extends Component {
           if (todo.id !== id) return todo;
         })
       ]
+    });
+  };
+
+  changeStatus = id => {
+    this.setState({
+      todos: this.state.todos.map(todo => {
+        if (todo.id === id) {
+          todo.isComplete = !todo.isComplete;
+        }
+        return todo;
+      })
     });
   };
   // onFormSubmit = (title, description) => {
@@ -106,7 +113,11 @@ class Main extends Component {
         <div className="ui container">
           <TodoForm addTodo={this.addTodo} />
 
-          <Todos todos={this.state.todos} delTodo={this.delTodo} />
+          <Todos
+            todos={this.state.todos}
+            delTodo={this.delTodo}
+            changeStatus={this.changeStatus}
+          />
 
           <div className="ui horizontal divider header">
             <i className="calendar alternate icon" />
