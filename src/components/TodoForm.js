@@ -2,31 +2,17 @@ import React, { Component } from "react";
 import CustomInput from "./CustomInput";
 
 class TodoForm extends Component {
-  state = {
-    title: "",
-    description: ""
-  };
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-    this.props.addTodo(this.state.title, this.state.description);
-    this.setState({ title: "", description: "" });
-  };
-
   render() {
+    const { title, description, addTodo, onInputChange, isUpdate } = this.props;
     return (
-      // onSubmit={update ? onFormUpdate : onFormSubmit}
-      <form className="ui form" onSubmit={this.onSubmit}>
+      <form className="ui form" onSubmit={addTodo}>
         <div className="field">
           <CustomInput
             type="text"
             name="title"
             placeholder="Enter Todo title"
-            value={this.state.title}
-            onChange={this.onChange}
+            value={title}
+            onChange={onInputChange}
           />
         </div>
         <div className="field">
@@ -34,16 +20,15 @@ class TodoForm extends Component {
             type="text"
             name="description"
             placeholder="Enter Todo description"
-            value={this.state.description}
-            onChange={this.onChange}
+            value={description}
+            onChange={onInputChange}
           />
         </div>
         <div className="field">
           <input
             type="submit"
             className="ui button primary"
-            // value={update ? "Update" : "Submit"}
-            onChange={this.onChange}
+            value={isUpdate ? "Update" : "Submit"}
           />
         </div>
       </form>

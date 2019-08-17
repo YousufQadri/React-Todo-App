@@ -8,20 +8,41 @@ import TodoForm from "../components/TodoForm";
 
 class Main extends Component {
   state = {
-    todos: []
+    todos: [],
+    title: "",
+    description: ""
   };
 
-  addTodo = (title, description) => {
+  addTodo = e => {
+    e.preventDefault();
     const newTodo = {
       id: uuid.v4(),
-      title,
-      description,
+      title: this.state.title,
+      description: this.state.description,
       isComplete: false
     };
     this.setState({
-      todos: [...this.state.todos, newTodo]
+      todos: [...this.state.todos, newTodo],
+      title: "",
+      description: "",
+      isUpdate: false
     });
   };
+
+  // updateTodo = e => {
+  //   e.preventDefault();
+  //   const { updateTododID, title, description, todos } = this.state;
+  //   const selectedTodo = this.state.todos.find(
+  //     todo => todo.id === updateTododID
+  //   );
+  //   const updatedTodoItem = {
+  //     id: selectedTodo.id,
+  //     title,
+  //     description,
+  //     isComplete: false
+  //   };
+  //   this.setState({ todos: [...todos, updatedTodoItem], isUpdate: false });
+  // };
 
   delTodo = id => {
     this.setState({
@@ -43,78 +64,41 @@ class Main extends Component {
       })
     });
   };
-  // onFormSubmit = (title, description) => {
-  //   const { todos } = this.state;
 
-  //   if (!title && !description) {
-  //     Swal.fire({
-  //       type: "error",
-  //       title: "Please fill both fields"
-  //     });
-  //   } else if (title.length <= 2 || description <= 2) {
-  //     Swal.fire({
-  //       type: "error",
-  //       title: "Title must consist of more than 2 words"
-  //     });
-  //   } else {
-  //     const todoObj = { title, description };
-  //     todos.push(todoObj);
-  //     this.setState({ todos, title: "", description: "" });
-  //     Swal.fire({
-  //       title: "Successfully added!",
-  //       text: "Todo List updated",
-  //       type: "success",
-  //       showConfirmButton: false,
-  //       timer: 1500
-  //     });
-  //   }
-  // };
+  editTodo = id => {
+    const filteredTodo = this.state.todos.filter(todo => todo.id !== id);
+    const selectedTodo = this.state.todos.find(todo => todo.id === id);
 
-  // onFormUpdate = e => {
-  //   e.preventDefault();
-  //   const { todos, idToUpdate, title, description } = this.state;
-  //   console.log(todos);
-  //   todos[idToUpdate].title = title;
-  //   todos[idToUpdate].description = description;
-  //   this.setState({ todos, title: "", description: "", update: false });
-  // };
+    this.setState({
+      todos: filteredTodo,
+      title: selectedTodo.title,
+      description: selectedTodo.description,
+      isUpdate: true
+    });
+  };
 
-  // onTodoDelete = index => {
-  //   const { todos } = this.state;
-  //   todos.splice(index, 1);
-  //   this.setState({ todos });
-  // };
-
-  // onTodoEdit = (val, i) => {
-  //   this.setState({
-  //     title: val.title,
-  //     description: val.description,
-  //     update: true,
-  //     idToUpdate: i
-  //   });
-  // };
-
-  // onChecked = () => {
-  //   this.setState({ isComplete: !this.state.isComplete });
-  // };
-
-  // onInputChangeHandler = e => {
-  //   this.setState({
-  //     [e.target.name]: e.target.value
-  //   });
-  // };
+  onInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   render() {
-    // const { title, description, update, isComplete } = this.state;
-    // let taskDone = isComplete ? "line-through" : "";
+    const { title, description, isUpdate } = this.state;
     return (
       <React.Fragment>
         <Header />
         <div className="ui container">
-          <TodoForm addTodo={this.addTodo} />
+          <TodoForm
+            title={title}
+            description={description}
+            addTodo={this.addTodo}
+            updateTodo={this.updateTodo}
+            onInputChange={this.onInputChange}
+            isUpdate={isUpdate}
+          />
 
           <Todos
             todos={this.state.todos}
+            editTodo={this.editTodo}
             delTodo={this.delTodo}
             changeStatus={this.changeStatus}
           />

@@ -12,8 +12,8 @@ class TodoItem extends Component {
     return (
       <div className="item">
         <div className="content">
-          <div class="ui left floated segment">
-            <div class="ui fitted checkbox">
+          <div className="ui left floated segment">
+            <div className="ui fitted checkbox">
               <input
                 type="checkbox"
                 onChange={() => this.props.changeStatus(id)}
@@ -30,7 +30,7 @@ class TodoItem extends Component {
               type="button"
               value="Edit"
               className="ui button positive right"
-              onClick=""
+              onClick={() => this.props.editTodo(id)}
             />
             <CustomInput
               type="button"
