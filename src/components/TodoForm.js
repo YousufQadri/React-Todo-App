@@ -27,7 +27,7 @@ class TodoForm extends Component {
         <div className="field" style={{ marginBottom: "20px" }}>
           <input
             type="submit"
-            className="ui button primary"
+            className="ui button primary large"
             value={isUpdate ? "Update" : "Submit"}
           />
         </div>

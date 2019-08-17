@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <h1
       className="ui segment header"
-      style={{ backgroundColor: "cornflowerblue" }}
+      style={{ backgroundColor: "#80A6CD", color: "black" }}
     >
       Todo Application
     </h1>

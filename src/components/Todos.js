@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TodoItem from "./TodoItem";
+import "animate.css";
 
 class Todos extends Component {
   render() {
@@ -9,7 +10,7 @@ class Todos extends Component {
           <i className="tag icon" />
           Todo Items
         </div>
-        <div className="ui segment">
+        <div className="ui raised segment" style={{ margin: "10px 0" }}>
           <ul className="ui relaxed divided list">
             {this.props.todos.map(todo => (
               <TodoItem

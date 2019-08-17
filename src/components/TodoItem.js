@@ -11,9 +11,9 @@ class TodoItem extends Component {
   render() {
     const { id, title, description } = this.props.todo;
     return (
-      <div className="item">
+      <div className="item animated fadeIn">
         <div className="content">
-          <div className="ui left floated segment">
+          <div className="ui left floated segment secondary">
             <div className="ui fitted checkbox">
               <input
                 type="checkbox"
@@ -30,13 +30,15 @@ class TodoItem extends Component {
             <CustomInput
               type="button"
               value="Edit"
-              className="ui button positive right"
+              className="ui button teal right"
               onClick={() => this.props.editTodo(id)}
+              style={{ display: "none" }}
             />
+
             <CustomInput
               type="button"
               value="Delete"
-              className="ui button negative right"
+              className="ui button negative right "
               onClick={() => this.props.delTodo(id)}
             />
           </span>

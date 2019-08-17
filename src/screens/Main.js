@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import Todos from "../components/Todos";
 import Header from "./Header";
 import TodoForm from "../components/TodoForm";
+import "animate.css";
 
 class Main extends Component {
   state = {
@@ -13,11 +14,12 @@ class Main extends Component {
     description: ""
   };
 
+  //Add TODO
   addTodo = e => {
     e.preventDefault();
     const { title, description, todos } = this.state;
 
-    if (!title && !description) {
+    if (!title || !description) {
       Swal.fire({
         type: "error",
         title: "Please fill both fields"
@@ -42,7 +44,6 @@ class Main extends Component {
       });
       Swal.fire({
         title: "Successfully added!",
-        text: "Todo List updated",
         type: "success",
         showConfirmButton: false,
         timer: 1400
@@ -65,6 +66,7 @@ class Main extends Component {
   //   this.setState({ todos: [...todos, updatedTodoItem], isUpdate: false });
   // };
 
+  ////Delete TODO
   delTodo = id => {
     Swal.fire({
       title: "Are you sure?",
@@ -73,7 +75,7 @@ class Main extends Component {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Yes"
     }).then(result => {
       if (result.value) {
         this.setState({
@@ -94,6 +96,7 @@ class Main extends Component {
     });
   };
 
+  //Change TODO complete status
   changeStatus = id => {
     this.setState({
       todos: this.state.todos.map(todo => {
@@ -105,6 +108,7 @@ class Main extends Component {
     });
   };
 
+  //Edit TODO
   editTodo = id => {
     const filteredTodo = this.state.todos.filter(todo => todo.id !== id);
     const selectedTodo = this.state.todos.find(todo => todo.id === id);
@@ -117,25 +121,10 @@ class Main extends Component {
     });
   };
 
+  //Todo Form input change handler
   onInputChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  // onFormSubmit = (title, description) => {
-  //   const { todos } = this.state;
-
-  //    else {
-  //     const todoObj = { title, description };
-  //     todos.push(todoObj);
-  //     this.setState({ todos, title: "", description: "" });
-  //     Swal.fire({
-  //       title: "Successfully added!",
-  //       text: "Todo List updated",
-  //       type: "success",
-  //       showConfirmButton: false,
-  //       timer: 1500
-  //     });
-  //   }
-  // };
 
   render() {
     const { title, description, isUpdate, todos } = this.state;
@@ -144,6 +133,7 @@ class Main extends Component {
         <Header />
         <div className="ui container">
           <TodoForm
+            className=""
             title={title}
             description={description}
             addTodo={this.addTodo}
@@ -167,13 +157,22 @@ class Main extends Component {
                 Todos Report
               </div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <h2 style={{ flex: "2" }}>Total: {todos.length}</h2>
-                <h4 style={{ flex: "1" }}>
-                  Completed: {todos.filter(todo => todo.isComplete).length}{" "}
-                </h4>
-                <h4 style={{ flex: "1" }}>
-                  Remaining: {todos.filter(todo => !todo.isComplete).length}{" "}
-                </h4>
+                <h3 style={{ flex: "2" }}>Total: {todos.length}</h3>
+                <div class="ui compact menu">
+                  <div class="item">
+                    <i class="icon clipboard check" /> Completed
+                    <div class="floating ui green label">
+                      {todos.filter(todo => todo.isComplete).length}
+                    </div>
+                  </div>
+                  <div class="item">
+                    <i class="icon exclamation circle" />
+                    Remaining
+                    <div class="floating ui red label">
+                      {todos.filter(todo => !todo.isComplete).length}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
