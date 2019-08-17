@@ -7,6 +7,7 @@ class TodoItem extends Component {
       textDecoration: this.props.todo.isComplete ? "line-through" : ""
     };
   };
+
   render() {
     const { id, title, description } = this.props.todo;
     return (

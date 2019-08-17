@@ -15,18 +15,39 @@ class Main extends Component {
 
   addTodo = e => {
     e.preventDefault();
-    const newTodo = {
-      id: uuid.v4(),
-      title: this.state.title,
-      description: this.state.description,
-      isComplete: false
-    };
-    this.setState({
-      todos: [...this.state.todos, newTodo],
-      title: "",
-      description: "",
-      isUpdate: false
-    });
+    const { title, description, todos } = this.state;
+
+    if (!title && !description) {
+      Swal.fire({
+        type: "error",
+        title: "Please fill both fields"
+      });
+    } else if (title.length <= 2 || description <= 2) {
+      Swal.fire({
+        type: "error",
+        title: "Title must consist of more than 2 words"
+      });
+    } else {
+      const newTodo = {
+        id: uuid.v4(),
+        title,
+        description,
+        isComplete: false
+      };
+      this.setState({
+        todos: [...todos, newTodo],
+        title: "",
+        description: "",
+        isUpdate: false
+      });
+      Swal.fire({
+        title: "Successfully added!",
+        text: "Todo List updated",
+        type: "success",
+        showConfirmButton: false,
+        timer: 1400
+      });
+    }
   };
 
   // updateTodo = e => {
@@ -45,12 +66,31 @@ class Main extends Component {
   // };
 
   delTodo = id => {
-    this.setState({
-      todos: [
-        ...this.state.todos.filter(todo => {
-          if (todo.id !== id) return todo;
-        })
-      ]
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(result => {
+      if (result.value) {
+        this.setState({
+          todos: [
+            ...this.state.todos.filter(todo => {
+              if (todo.id !== id) return todo;
+            })
+          ]
+        });
+        Swal.fire({
+          title: "Deleted!",
+          text: "Todo has been deleted.",
+          type: "success",
+          showConfirmButton: false,
+          timer: 1400
+        });
+      }
     });
   };
 
@@ -80,9 +120,25 @@ class Main extends Component {
   onInputChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+  // onFormSubmit = (title, description) => {
+  //   const { todos } = this.state;
+
+  //    else {
+  //     const todoObj = { title, description };
+  //     todos.push(todoObj);
+  //     this.setState({ todos, title: "", description: "" });
+  //     Swal.fire({
+  //       title: "Successfully added!",
+  //       text: "Todo List updated",
+  //       type: "success",
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     });
+  //   }
+  // };
 
   render() {
-    const { title, description, isUpdate } = this.state;
+    const { title, description, isUpdate, todos } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -96,19 +152,31 @@ class Main extends Component {
             isUpdate={isUpdate}
           />
 
-          <Todos
-            todos={this.state.todos}
-            editTodo={this.editTodo}
-            delTodo={this.delTodo}
-            changeStatus={this.changeStatus}
-          />
+          {todos.length !== 0 && (
+            <div>
+              <Todos
+                todos={this.state.todos}
+                editTodo={this.editTodo}
+                delTodo={this.delTodo}
+                changeStatus={this.changeStatus}
+                isUpdate={isUpdate}
+              />
 
-          <div className="ui horizontal divider header">
-            <i className="calendar alternate icon" />
-            Todos
-          </div>
-          <span>Completed: </span>
-          <span>Remaining: </span>
+              <div className="ui horizontal divider header">
+                <i className="calendar alternate icon" />
+                Todos Report
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <h2 style={{ flex: "2" }}>Total: {todos.length}</h2>
+                <h4 style={{ flex: "1" }}>
+                  Completed: {todos.filter(todo => todo.isComplete).length}{" "}
+                </h4>
+                <h4 style={{ flex: "1" }}>
+                  Remaining: {todos.filter(todo => !todo.isComplete).length}{" "}
+                </h4>
+              </div>
+            </div>
+          )}
         </div>
       </React.Fragment>
     );

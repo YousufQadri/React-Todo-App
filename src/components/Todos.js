@@ -18,6 +18,7 @@ class Todos extends Component {
                 changeStatus={this.props.changeStatus}
                 editTodo={this.props.editTodo}
                 delTodo={this.props.delTodo}
+                isUpdate={this.props.isUpdate}
               />
             ))}
           </ul>

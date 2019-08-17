@@ -24,7 +24,7 @@ class TodoForm extends Component {
             onChange={onInputChange}
           />
         </div>
-        <div className="field">
+        <div className="field" style={{ marginBottom: "20px" }}>
           <input
             type="submit"
             className="ui button primary"
