@@ -158,17 +158,17 @@ class Main extends Component {
               </div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <h3 style={{ flex: "2" }}>Total: {todos.length}</h3>
-                <div class="ui compact menu">
-                  <div class="item">
-                    <i class="icon clipboard check" /> Completed
-                    <div class="floating ui green label">
+                <div className="ui compact menu">
+                  <div className="item">
+                    <i className="icon clipboard check" /> Completed
+                    <div className="floating ui green label">
                       {todos.filter(todo => todo.isComplete).length}
                     </div>
                   </div>
-                  <div class="item">
-                    <i class="icon exclamation circle" />
+                  <div className="item">
+                    <i className="icon exclamation circle" />
                     Remaining
-                    <div class="floating ui red label">
+                    <div className="floating ui red label">
                       {todos.filter(todo => !todo.isComplete).length}
                     </div>
                   </div>
